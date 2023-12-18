@@ -3,7 +3,7 @@ import sys
 
 
 def rect_bounce():
-    global x_speed, y_speed, rect_2_speed
+    global x_speed, y_speed, rec2_x_speed, rect_2_y_speed
     rect_1.x += x_speed
     rect_1.y += y_speed
     # collision with wall
@@ -14,14 +14,15 @@ def rect_bounce():
         y_speed *= -1
 
     # move rect_2
-    rect_2.y += rect_2_speed
+    rect_2.y += rect_2_y_speed
+    rect_2.x += rec2_x_speed
     if rect_2.top <= 0 or rect_2.bottom >= screen_height:
-        rect_2_speed *= -1
+        rect_2_y_speed *= -1
     if rect_2.right >= screen_width or rect_2.left <= 0:
-        rect_2_speed *= -1
+        rec2_x_speed *= -1
 
     # rect collision
-    collision_tolerance = 8
+    collision_tolerance = 10
     if rect_1.colliderect(rect_2):
         if abs(rect_2.top - rect_1.bottom) < collision_tolerance and y_speed > 0:
             y_speed *= -1
@@ -44,8 +45,9 @@ screen = pygame.display.set_mode((screen_width, screen_height))
 rect_1 = pygame.Rect((350, 350, 100, 100))
 x_speed, y_speed = 5, 4
 
-rect_2 = pygame.Rect((300, 600, 200, 100))
-rect_2_speed = 2
+rect_2 = pygame.Rect((300, 600, 100, 60))
+rec2_x_speed = 2
+rect_2_y_speed = 2
 
 while True:
     for event in pygame.event.get():
